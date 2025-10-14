@@ -4,6 +4,10 @@ using AutoBattlerSpire.Core;
 
 namespace AutoBattlerSpire.Combat
 {
+    /// <summary>
+    /// HOTFIX: после успешного розыгрыша карта теперь уходит в Discard,
+    /// чтобы колода не выедалась насовсем и бой не "замирал" без логов.
+    /// </summary>
     public class CombatRunner : MonoBehaviour
     {
         [Header("Seed")]
@@ -30,7 +34,7 @@ namespace AutoBattlerSpire.Combat
 
             _ctx = new CombatContext(RunSeed, p, e);
 
-            Debug.Log("[CombatRunner] Combat start (Sprint 2).");
+            Debug.Log("[CombatRunner] Combat start (Sprint 2 HOTFIX).");
             InvokeRepeating(nameof(RunTurn), 0.5f, 1.0f);
         }
 
@@ -52,7 +56,11 @@ namespace AutoBattlerSpire.Combat
                 _ctx.CurrentSlot = slot;
 
                 var card = self.Deck.DrawTop();
-                if (card == null) continue;
+                if (card == null)
+                {
+                    Debug.Log($"{self.Name} [{slot}] NO CARD");
+                    continue;
+                }
 
                 bool canPlay = card.IsAdaptiveFor(slot) || card.CostNow <= slot.Cost();
                 if (canPlay)
@@ -65,6 +73,9 @@ namespace AutoBattlerSpire.Combat
                             EffectExecutor.Execute(eff, _ctx, self, target, card);
                         }
                     }
+                    // ВАЖНО: уводим карту в discard после успеха
+                    self.Deck.Discard(card);
+
                     Debug.Log($"{self.Name} [{slot}] PLAY {card}  | HP: P{_ctx.Player.Hp} E{_ctx.Enemy.Hp}  Block: P{_ctx.Player.Block} E{_ctx.Enemy.Block}");
                 }
                 else
