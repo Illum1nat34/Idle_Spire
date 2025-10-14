@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b0ee1689277e464fbfe09e34ef77574, type: 3}
+  m_Name: Card_07_ParryHit
+  m_EditorClassIdentifier: 
+  Id: Card_07_ParryHit
+  Title: "\u041F\u0430\u0440\u0438\u0440\u0443\u044E\u0449\u0438\u0439 \u0443\u0434\u0430\u0440"
+  Description: 
+  Type: 0
+  Rarity: 0
+  BaseCost: 2
+  AdaptiveMask: 0
+  S1Mult: 1
+  S2Mult: 1
+  S3Mult: 1
+  Effects:
+  - Kind: 0
+    V1: 6
+    V2: 0
+    F1: 0
+    RefId: 
+  - Kind: 1
+    V1: 4
+    V2: 0
+    F1: 0
+    RefId: 
+  UpgradeTo: {fileID: 0}

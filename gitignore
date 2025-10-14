@@ -1,0 +1,38 @@
+# Unity build/cache
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+SysInfo/
+
+# IDE
+.vscode/
+.vs/
+.idea/
+*.user
+*.userprefs
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Unity auto-generated
+*.csproj
+*.sln
+*.suo
+*.unityproj
+*.pidb
+*.booproj
+*.svd
+
+# Lightmaps, Bakery caches (если генеришь на лету — не коммитим)
+Assets/**/Lightmap-*
+Assets/**/LightProbes-*
+Assets/**/ReflectionProbe-*
+Assets/**/GI/*
+Assets/**/Bakery*/**/bakery_*
+Assets/**/Bakery*/**/*.exr

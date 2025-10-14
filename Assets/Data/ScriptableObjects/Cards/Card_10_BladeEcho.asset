@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b0ee1689277e464fbfe09e34ef77574, type: 3}
+  m_Name: Card_10_BladeEcho
+  m_EditorClassIdentifier: 
+  Id: Card_10_BladeEcho
+  Title: "\u042D\u0445\u043E \u043A\u043B\u0438\u043D\u043A\u0430"
+  Description: 
+  Type: 0
+  Rarity: 1
+  BaseCost: 2
+  AdaptiveMask: 6
+  S1Mult: 0.8
+  S2Mult: 1
+  S3Mult: 1.15
+  Effects:
+  - Kind: 0
+    V1: 7
+    V2: 0
+    F1: 0
+    RefId: 
+  UpgradeTo: {fileID: 0}
