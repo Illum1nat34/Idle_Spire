@@ -10,6 +10,9 @@ namespace AutoBattlerSpire.Data
         public string Title;
         [TextArea] public string Description;
 
+        [Header("Stats")]
+        public int MaxHp = 60;
+
         [Header("Start Deck")]
         public List<CardData> StartDeck = new();
 

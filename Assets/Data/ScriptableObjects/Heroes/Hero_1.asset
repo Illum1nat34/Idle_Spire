@@ -15,5 +15,14 @@ MonoBehaviour:
   Id: 
   Title: 
   Description: 
-  StartDeck: []
+  MaxHp: 60
+  StartDeck:
+  - {fileID: 11400000, guid: 0124a03a92fee2a49b01c6673ea5aec7, type: 2}
+  - {fileID: 11400000, guid: 10b5415c7c0eb0b4c821bf488cf874ca, type: 2}
+  - {fileID: 11400000, guid: 0307b5270954b304ab373010107702ab, type: 2}
+  - {fileID: 11400000, guid: e73b62e8af1b535458cfa75e66cdbe18, type: 2}
+  - {fileID: 11400000, guid: 0b108daf9c17d584cb0a5e80f62a1096, type: 2}
+  - {fileID: 11400000, guid: ac289c765237eec4d9719675d41ed96b, type: 2}
+  - {fileID: 11400000, guid: 298fc2af915ed2c4f9d96100efe9bb2a, type: 2}
+  - {fileID: 11400000, guid: 29d5efc8882e8fc48b0aa6b2b32692b9, type: 2}
   StartRelics: []
