@@ -11,7 +11,8 @@ namespace AutoBattlerSpire.Data
         ShiftSlot, AddToBank,
         CopyLast, AddEchoSlot,
         ModifyCostTemp,
-        OverchargeBonus
+        OverchargeBonus,
+        ScryManual
     }
 
     /// <summary>Табличный атом эффекта. Логика выполнения будет позже.</summary>

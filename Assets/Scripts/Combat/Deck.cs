@@ -55,5 +55,81 @@ namespace AutoBattlerSpire.Combat
                 (list[i], list[j]) = (list[j], list[i]);
             }
         }
+
+        public List<CardInstance> PeekTop(int x)
+        {
+            int count = Mathf.Min(Mathf.Max(0, x), _draw.Count);
+            var result = new List<CardInstance>(count);
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(_draw[i]);
+            }
+            return result;
+        }
+
+        public void ApplyScry(List<int> toBottom, List<int> orderedTop)
+        {
+            int requestedTop = orderedTop != null ? orderedTop.Count : 0;
+            int requestedBottom = toBottom != null ? toBottom.Count : 0;
+            int total = Mathf.Min(requestedTop + requestedBottom, _draw.Count);
+
+            if (total <= 0)
+            {
+                return;
+            }
+
+            var slice = new List<CardInstance>(total);
+            for (int i = 0; i < total; i++)
+            {
+                var card = _draw[0];
+                _draw.RemoveAt(0);
+                slice.Add(card);
+            }
+
+            var used = new bool[slice.Count];
+            var topList = new List<CardInstance>();
+
+            if (orderedTop != null)
+            {
+                foreach (var idx in orderedTop)
+                {
+                    if (idx < 0 || idx >= slice.Count) continue;
+                    if (used[idx]) continue;
+                    topList.Add(slice[idx]);
+                    used[idx] = true;
+                }
+            }
+
+            var bottomList = new List<CardInstance>();
+
+            if (toBottom != null)
+            {
+                foreach (var idx in toBottom)
+                {
+                    if (idx < 0 || idx >= slice.Count) continue;
+                    if (used[idx]) continue;
+                    bottomList.Add(slice[idx]);
+                    used[idx] = true;
+                }
+            }
+
+            for (int i = 0; i < slice.Count; i++)
+            {
+                if (!used[i])
+                {
+                    topList.Add(slice[i]);
+                }
+            }
+
+            if (topList.Count > 0)
+            {
+                _draw.InsertRange(0, topList);
+            }
+
+            if (bottomList.Count > 0)
+            {
+                _draw.AddRange(bottomList);
+            }
+        }
     }
 }

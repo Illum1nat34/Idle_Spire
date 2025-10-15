@@ -105,7 +105,18 @@ namespace AutoBattlerSpire.Combat
                     if (card.Data.Effects != null)
                     {
                         foreach (var eff in card.Data.Effects)
+                        {
+                            if (eff == null) continue;
+                            if (eff.Kind == EffectKind.ScryManual && _playerTurn && UI != null && UI.ScryModal != null)
+                            {
+                                bool done = false;
+                                UI.ScryModal.Open(self.Deck, Mathf.Max(1, eff.V1), ok => { done = true; });
+                                yield return new WaitUntil(() => done);
+                                continue;
+                            }
+
                             EffectExecutor.Execute(eff, _ctx, self, target, card);
+                        }
                     }
                     self.Deck.Discard(card);
                     UiLog($"{self.Name} [{slot}] PLAY {card}");
