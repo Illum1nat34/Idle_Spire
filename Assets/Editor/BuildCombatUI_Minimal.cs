@@ -43,11 +43,12 @@ public static class BuildCombatUI_Minimal
             var tmp = MakeTMP("Label", go.transform, 28, TextAlignmentOptions.Center, Color.black); tmp.text = label;
             return go.GetComponent<Button>();
         }
-        Slider MakeSlider(string name, Transform parent)
+        Slider MakeSlider(string name, Transform parent, Vector2 size)
         {
             var go = new GameObject(name, typeof(Slider));
             go.transform.SetParent(parent, false);
-            var rt = go.GetComponent<RectTransform>(); rt.sizeDelta = new Vector2(400, 22);
+            var rt = go.GetComponent<RectTransform>();
+            rt.sizeDelta = size;
             return go.GetComponent<Slider>();
         }
         RectTransform Panel(string name, Transform parent)
@@ -65,12 +66,16 @@ public static class BuildCombatUI_Minimal
         var right = Panel("EnemyPanel", top); var rtR = right; rtR.anchorMin = new Vector2(0.5f,0); rtR.anchorMax = new Vector2(1,1);
 
         ui.PlayerName = MakeTMP("PlayerName", left, 36, TextAlignmentOptions.Left, Color.white);
-        ui.PlayerHp   = MakeSlider("PlayerHp", left);
-        ui.PlayerBlock= MakeTMP("PlayerBlock", left, 26, TextAlignmentOptions.Left, Color.white); ui.PlayerBlock.text = "Block: 0";
+        ui.PlayerHp   = MakeSlider("PlayerHp", left, new Vector2(400, 22));
+        ui.PlayerHpText = MakeTMP("PlayerHpText", left, 24, TextAlignmentOptions.Left, Color.white); ui.PlayerHpText.text = "HP: 0/0";
+        ui.PlayerBlock = MakeSlider("PlayerBlock", left, new Vector2(360, 18));
+        ui.PlayerBlockText = MakeTMP("PlayerBlockText", left, 22, TextAlignmentOptions.Left, Color.white); ui.PlayerBlockText.text = "Block: 0";
 
         ui.EnemyName = MakeTMP("EnemyName", right, 36, TextAlignmentOptions.Right, Color.white);
-        ui.EnemyHp   = MakeSlider("EnemyHp", right);
-        ui.EnemyBlock= MakeTMP("EnemyBlock", right, 26, TextAlignmentOptions.Right, Color.white); ui.EnemyBlock.text = "Block: 0";
+        ui.EnemyHp   = MakeSlider("EnemyHp", right, new Vector2(400, 22));
+        ui.EnemyHpText = MakeTMP("EnemyHpText", right, 24, TextAlignmentOptions.Right, Color.white); ui.EnemyHpText.text = "HP: 0/0";
+        ui.EnemyBlock = MakeSlider("EnemyBlock", right, new Vector2(360, 18));
+        ui.EnemyBlockText = MakeTMP("EnemyBlockText", right, 22, TextAlignmentOptions.Right, Color.white); ui.EnemyBlockText.text = "Block: 0";
 
         var bottom = Panel("Bottom", canvasGo.transform);
         var rtB = bottom; rtB.anchorMin = new Vector2(0,0); rtB.anchorMax = new Vector2(1,0); rtB.pivot = new Vector2(0.5f,0);

@@ -2135,15 +2135,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerName: {fileID: 506127578}
-  PlayerHp: {fileID: 1136297278}
+  PlayerHpText: {fileID: 1176900729}
   PlayerBlock: {fileID: 1077879338}
+  PlayerBlockText: {fileID: 1185059419}
+  PlayerHpBackground: {r: 0.15, g: 0.2, b: 0.4, a: 0.8}
+  PlayerHpFill: {r: 0.3, g: 0.6, b: 1, a: 0.9}
+  PlayerBlockBackground: {r: 0.1, g: 0.3, b: 0.25, a: 0.8}
+  PlayerBlockFill: {r: 0.3, g: 0.85, b: 0.7, a: 0.9}
   EnemyName: {fileID: 489163945}
   EnemyHp: {fileID: 1489729980}
+  EnemyHpText: {fileID: 1226803536}
   EnemyBlock: {fileID: 1241271105}
+  EnemyBlockText: {fileID: 1111436223}
+  EnemyHpBackground: {r: 0.4, g: 0.15, b: 0.15, a: 0.8}
+  EnemyHpFill: {r: 1, g: 0.4, b: 0.3, a: 0.9}
+  EnemyBlockBackground: {r: 0.35, g: 0.15, b: 0.35, a: 0.8}
+  EnemyBlockFill: {r: 0.9, g: 0.5, b: 1, a: 0.9}
   ButtonEndTurn: {fileID: 1088465102}
-  ButtonScry: {fileID: 547382147}
-  ButtonShift: {fileID: 1371257755}
   LogText: {fileID: 859581603}
+  ScryModal: {fileID: 0}
 --- !u!1 &1489729978
 GameObject:
   m_ObjectHideFlags: 0

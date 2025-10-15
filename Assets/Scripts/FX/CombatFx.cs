@@ -24,7 +24,7 @@ namespace AutoBattlerSpire.FX
 #endif
         }
 
-        public static void TweenBlock(TextMeshProUGUI label, int value)
+        public static void TweenBlockText(TextMeshProUGUI label, int value)
         {
             if (label == null) return;
 
@@ -35,6 +35,21 @@ namespace AutoBattlerSpire.FX
             label.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
 #else
             label.text = $"Block: {value}";
+#endif
+        }
+
+        public static void TweenBlockSlider(Slider slider, float to, float dur = 0.2f)
+        {
+            if (slider == null) return;
+
+#if DOTWEEN || DOTWEEN_PRESENT
+            if (DOTween.IsTweening(slider, true))
+            {
+                slider.DOKill(true);
+            }
+            slider.DOValue(to, dur).SetEase(Ease.OutQuad);
+#else
+            slider.value = to;
 #endif
         }
     }

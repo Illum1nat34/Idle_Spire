@@ -10,12 +10,28 @@ namespace AutoBattlerSpire.UI
         [Header("Player")]
         public TextMeshProUGUI PlayerName;
         public Slider PlayerHp;
-        public TextMeshProUGUI PlayerBlock;
+        public TextMeshProUGUI PlayerHpText;
+        public Slider PlayerBlock;
+        public TextMeshProUGUI PlayerBlockText;
+
+        [Header("Player Colors")]
+        public Color PlayerHpBackground = new Color(0.15f, 0.2f, 0.4f, 0.8f);
+        public Color PlayerHpFill = new Color(0.3f, 0.6f, 1f, 0.9f);
+        public Color PlayerBlockBackground = new Color(0.1f, 0.3f, 0.25f, 0.8f);
+        public Color PlayerBlockFill = new Color(0.3f, 0.85f, 0.7f, 0.9f);
 
         [Header("Enemy")]
         public TextMeshProUGUI EnemyName;
         public Slider EnemyHp;
-        public TextMeshProUGUI EnemyBlock;
+        public TextMeshProUGUI EnemyHpText;
+        public Slider EnemyBlock;
+        public TextMeshProUGUI EnemyBlockText;
+
+        [Header("Enemy Colors")]
+        public Color EnemyHpBackground = new Color(0.4f, 0.15f, 0.15f, 0.8f);
+        public Color EnemyHpFill = new Color(1f, 0.4f, 0.3f, 0.9f);
+        public Color EnemyBlockBackground = new Color(0.35f, 0.15f, 0.35f, 0.8f);
+        public Color EnemyBlockFill = new Color(0.9f, 0.5f, 1f, 0.9f);
 
         [Header("Controls")]
         public Button ButtonEndTurn;
@@ -30,8 +46,10 @@ namespace AutoBattlerSpire.UI
 
         void Awake()
         {
-            EnsureSliderGraphics(PlayerHp, new Color(0.15f, 0.2f, 0.4f, 0.8f), new Color(0.3f, 0.6f, 1f, 0.9f));
-            EnsureSliderGraphics(EnemyHp, new Color(0.4f, 0.15f, 0.15f, 0.8f), new Color(1f, 0.4f, 0.3f, 0.9f));
+            EnsureSliderGraphics(PlayerHp, PlayerHpBackground, PlayerHpFill);
+            EnsureSliderGraphics(PlayerBlock, PlayerBlockBackground, PlayerBlockFill);
+            EnsureSliderGraphics(EnemyHp, EnemyHpBackground, EnemyHpFill);
+            EnsureSliderGraphics(EnemyBlock, EnemyBlockBackground, EnemyBlockFill);
         }
 
         public void Bind(CombatRunner runner)
@@ -47,26 +65,42 @@ namespace AutoBattlerSpire.UI
 
         public void UpdateBars(Fighter player, Fighter enemy)
         {
-            PlayerHp.maxValue = player.MaxHp;
-            EnemyHp.maxValue = enemy.MaxHp;
+            if (PlayerHp != null) PlayerHp.maxValue = player.MaxHp;
+            if (PlayerBlock != null) PlayerBlock.maxValue = Mathf.Max(1f, Mathf.Max(player.MaxHp, player.Block));
+            if (EnemyHp != null) EnemyHp.maxValue = enemy.MaxHp;
+            if (EnemyBlock != null) EnemyBlock.maxValue = Mathf.Max(1f, Mathf.Max(enemy.MaxHp, enemy.Block));
 
 #if DOTWEEN || DOTWEEN_PRESENT
-            AutoBattlerSpire.FX.CombatFx.TweenHp(PlayerHp, player.Hp);
-            AutoBattlerSpire.FX.CombatFx.TweenHp(EnemyHp, enemy.Hp);
-            AutoBattlerSpire.FX.CombatFx.TweenBlock(PlayerBlock, player.Block);
-            AutoBattlerSpire.FX.CombatFx.TweenBlock(EnemyBlock, enemy.Block);
+            if (PlayerHp != null) AutoBattlerSpire.FX.CombatFx.TweenHp(PlayerHp, player.Hp);
+            if (EnemyHp != null) AutoBattlerSpire.FX.CombatFx.TweenHp(EnemyHp, enemy.Hp);
+            if (PlayerBlock != null) AutoBattlerSpire.FX.CombatFx.TweenBlockSlider(PlayerBlock, player.Block);
+            if (EnemyBlock != null) AutoBattlerSpire.FX.CombatFx.TweenBlockSlider(EnemyBlock, enemy.Block);
 #else
-            PlayerHp.value = player.Hp;
-            EnemyHp.value = enemy.Hp;
-            PlayerBlock.text = $"Block: {player.Block}";
-            EnemyBlock.text = $"Block: {enemy.Block}";
+            if (PlayerHp != null) PlayerHp.value = player.Hp;
+            if (EnemyHp != null) EnemyHp.value = enemy.Hp;
+            if (PlayerBlock != null) PlayerBlock.value = player.Block;
+            if (EnemyBlock != null) EnemyBlock.value = enemy.Block;
 #endif
+
+            if (PlayerHpText != null) PlayerHpText.text = $"HP: {player.Hp}/{player.MaxHp}";
+            if (EnemyHpText != null) EnemyHpText.text = $"HP: {enemy.Hp}/{enemy.MaxHp}";
+
+            AutoBattlerSpire.FX.CombatFx.TweenBlockText(PlayerBlockText, player.Block);
+            AutoBattlerSpire.FX.CombatFx.TweenBlockText(EnemyBlockText, enemy.Block);
         }
 
         public void Log(string line)
         {
             _sb.AppendLine(line);
             LogText.text = _sb.ToString();
+        }
+
+        public void SetEndTurnEnabled(bool enabled)
+        {
+            if (ButtonEndTurn != null)
+            {
+                ButtonEndTurn.interactable = enabled;
+            }
         }
 
         void EnsureSliderGraphics(Slider slider, Color backgroundColor, Color fillColor)

@@ -25,6 +25,7 @@ namespace AutoBattlerSpire.Combat
         private CombatContext _ctx;
         private bool _playerTurn = true;
         private bool _isTurnRunning = false;
+        private bool _combatEnded = false;
 
         void Start()
         {
@@ -73,18 +74,25 @@ namespace AutoBattlerSpire.Combat
             UI?.Bind(this);
             UI?.SetNames(p.Name, e.Name);
             UI?.UpdateBars(p, e);
+            UI?.SetEndTurnEnabled(true);
             UiLog("Combat start (clean UI)");
         }
 
         public void OnEndTurnClicked()
         {
-            if (_isTurnRunning) return;
+            if (_isTurnRunning || _combatEnded) return;
             StartCoroutine(RunTurnRoutine());
         }
 
         System.Collections.IEnumerator RunTurnRoutine()
         {
             _isTurnRunning = true;
+
+            if (_combatEnded)
+            {
+                _isTurnRunning = false;
+                yield break;
+            }
 
             var self = _ctx.Self(_playerTurn);
             var target = _ctx.Target(_playerTurn);
@@ -116,6 +124,12 @@ namespace AutoBattlerSpire.Combat
                             }
 
                             EffectExecutor.Execute(eff, _ctx, self, target, card);
+                            if (CheckCombatEnd())
+                            {
+                                UI?.UpdateBars(_ctx.Player, _ctx.Enemy);
+                                _isTurnRunning = false;
+                                yield break;
+                            }
                         }
                     }
                     self.Deck.Discard(card);
@@ -128,20 +142,52 @@ namespace AutoBattlerSpire.Combat
                 }
 
                 UI?.UpdateBars(_ctx.Player, _ctx.Enemy);
+                if (CheckCombatEnd())
+                {
+                    _isTurnRunning = false;
+                    yield break;
+                }
+                
                 yield return new UnityEngine.WaitForSeconds(0.2f);
             }
 
             _playerTurn = !_playerTurn;
             _isTurnRunning = false;
 
-            if (_ctx.Player.Hp <= 0) UiLog("Enemy wins.");
-            if (_ctx.Enemy .Hp <= 0) UiLog("Player wins.");
+            if (CheckCombatEnd()) yield break;
         }
 
         private void UiLog(string line)
         {
             UI?.Log(line);
             Debug.Log(line);
+        }
+
+        private bool CheckCombatEnd()
+        {
+            if (_combatEnded) return true;
+
+            if (_ctx.Player.Hp <= 0)
+            {
+                FinishCombat($"{_ctx.Enemy.Name} wins.");
+                return true;
+            }
+
+            if (_ctx.Enemy.Hp <= 0)
+            {
+                FinishCombat($"{_ctx.Player.Name} wins.");
+                return true;
+            }
+
+            return false;
+        }
+
+        private void FinishCombat(string message)
+        {
+            if (_combatEnded) return;
+            _combatEnded = true;
+            UI?.SetEndTurnEnabled(false);
+            UiLog(message);
         }
     }
 }
