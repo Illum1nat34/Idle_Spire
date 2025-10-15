@@ -19,8 +19,6 @@ namespace AutoBattlerSpire.UI
 
         [Header("Controls")]
         public Button ButtonEndTurn;
-        public Button ButtonScry;
-        public Button ButtonShift;
 
         [Header("Log")]
         public TextMeshProUGUI LogText;
@@ -30,8 +28,6 @@ namespace AutoBattlerSpire.UI
         public void Bind(CombatRunner runner)
         {
             ButtonEndTurn.onClick.AddListener(runner.OnEndTurnClicked);
-            ButtonScry.onClick.AddListener(() => runner.OnScryClicked(2));
-            ButtonShift.onClick.AddListener(runner.OnShiftClicked);
         }
 
         public void SetNames(string p, string e)
