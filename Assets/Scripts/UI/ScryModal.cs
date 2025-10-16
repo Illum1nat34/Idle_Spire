@@ -34,14 +34,14 @@ namespace AutoBattlerSpire.UI
 
         void Awake()
         {
-            EnsureStructure();
+            EnsureLayoutSetup();
             SetupButtonListeners();
             Hide();
         }
 
         void OnEnable()
         {
-            EnsureStructure();
+            EnsureLayoutSetup();
             SetupButtonListeners();
         }
 
@@ -57,13 +57,13 @@ namespace AutoBattlerSpire.UI
 
         void OnValidate()
         {
-            EnsureStructure();
+            EnsureLayoutSetup();
             SetupButtonListeners();
         }
 
         void SetupButtonListeners()
         {
-            EnsureStructure();
+            EnsureLayoutSetup();
 
             if (ButtonConfirm != null)
             {
